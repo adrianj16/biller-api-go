@@ -1,7 +1,9 @@
 package main
 
 import (
+	"biller-api/src/api/database"
 	"biller-api/src/api/handler"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,5 +16,14 @@ func main() {
 		})
 	})
 	r.GET("/product", handler.ProductGetAll)
-	r.Run()
+
+	database.GetDB()
+	err := database.DB.Ping()
+	if err != nil {
+		fmt.Println(fmt.Sprintf("COULD NOT CONNECT TO DATABASE: %s", err.Error()))
+	}
+
+	if err := r.Run(); err != nil {
+		fmt.Println(fmt.Sprintf("error running server %s", err.Error()))
+	}
 }

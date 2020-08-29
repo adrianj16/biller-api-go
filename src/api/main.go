@@ -15,7 +15,13 @@ func main() {
 			"message": "pong",
 		})
 	})
+
+	//Product
 	r.GET("/product", handler.ProductGetAll)
+	r.GET("/product/:ID", handler.ProductGet)
+	r.PUT("/product/:ID", handler.ProductUpdate)
+	r.DELETE("/product/:ID", handler.ProductDelete)
+	r.POST("/product", handler.ProductCreate)
 
 	database.GetDB()
 	err := database.DB.Ping()

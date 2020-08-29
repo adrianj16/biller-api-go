@@ -8,9 +8,9 @@ type Product struct {
 	PriceOld     *float64         `json:"price_old,omitempty"`
 	Discount     *ProductDiscount `json:"discount,omitempty"`
 	New          bool             `db:"New" json:"new"`
-	InStock      *bool            `json:"in_stock,omitempty"`
-	Multiproduct *bool            `db:"MultiProduct" json:"multiproduct"`
-	Description  *string          `db:"Description" json:"description"`
+	InStock      bool             `json:"in_stock,omitempty"`
+	Multiproduct bool             `db:"MultiProduct" json:"multiproduct"`
+	Description  string           `db:"Description" json:"description"`
 	HasReview    *HasReview       `json:"has_review,omitempty"`
 	Tags         *[]Tag           `json:"tags,omitempty"`
 	Categories   *[]Category      `json:"categories,omitempty"`

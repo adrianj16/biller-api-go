@@ -10,7 +10,7 @@ type Image struct{}
 
 func (i *Image) GetByIdProduct(productID int) interface{} {
 	images := []model.Image{}
-	err := database.DB.Select(&images, "SELECT ID, Path, Order FROM image AS i INNER JOIN product-image AS pI ON p.ProductID = %d AND i.ImageID = pi.ImageID")
+	err := database.DB.Select(&images, "SELECT i.ID, i.Path, i.Order FROM image AS i INNER JOIN product-image AS pi ON pi.ProductID = %d AND pi.ImageID = i.ID")
 	if err != nil {
 		fmt.Println(fmt.Sprintf("error running server %s", err.Error()))
 		return nil

@@ -46,13 +46,15 @@ type HasReview struct {
 }
 
 type Tag struct {
-	ID    int    `json:"id"`
-	Title string `json:"title"`
+	ID    int    `db:"ID" json:"id"`
+	Title string `db:"Title" json:"title"`
+	TagID int    `db:"TagID" json:"tag_id"`
 }
 
 type Category struct {
-	ID    int    `json:"id"`
-	Title string `json:"title"`
+	ID         int    `db:"ID" json:"id"`
+	Title      string `db:"Title" json:"title"`
+	CategoryID int    `db:"CategoryID" json:"category_id"`
 }
 
 type Specs struct {

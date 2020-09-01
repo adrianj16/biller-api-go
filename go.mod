@@ -25,6 +25,7 @@ require (
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/shopspring/decimal v1.2.0 // indirect
 	github.com/stretchr/objx v0.3.0 // indirect
+	github.com/ventu-io/go-shortid v0.0.0-20171029131806-771a37caa5cf
 	github.com/yuin/goldmark v1.2.1 // indirect
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a // indirect
 	golang.org/x/sys v0.0.0-20200820212457-1fb795427249 // indirect

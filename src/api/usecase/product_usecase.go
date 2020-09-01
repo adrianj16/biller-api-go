@@ -3,12 +3,8 @@ package usecase
 import (
 	"biller-api/src/api/model"
 	"biller-api/src/api/repository"
-	"bytes"
-	"encoding/base64"
+	"biller-api/src/api/util"
 	"fmt"
-	"image/png"
-	"os"
-	"time"
 )
 
 type Product struct{}
@@ -35,7 +31,7 @@ func (p *Product) Create(product model.Product) interface{} {
 	imgs := []model.Image{}
 	if product.Img != nil && len(*product.Img) > 0 {
 		for _, img := range *product.Img {
-			path, err := generateImage(img.Base64)
+			path, err := util.GenerateImage(img.Base64)
 			if err != nil {
 				return fmt.Errorf("Error generate imagen: " + err.Error())
 			}
@@ -44,33 +40,26 @@ func (p *Product) Create(product model.Product) interface{} {
 			imgs = append(imgs, imgResp)
 		}
 	}
+
+	tags := []model.Tag{}
+	if product.Tags != nil && len(*product.Tags) > 0 {
+		for _, tag := range *product.Tags {
+			tagResp := tagRepository.Create(tag)
+			tags = append(tags, tagResp)
+		}
+	}
+
+	categories := []model.Category{}
+	if product.Categories != nil && len(*product.Categories) > 0 {
+		for _, category := range *product.Categories {
+			categoryResp := categoryRepository.Create(category)
+			categories = append(categories, categoryResp)
+		}
+	}
+
 	productResp := productRepository.Create(product)
 	productResp.Img = &imgs
+	productResp.Tags = &tags
+	productResp.Categories = &categories
 	return productResp
-}
-
-func generateImage(b string) (string, error) {
-	unbased, err := base64.StdEncoding.DecodeString(b)
-	if err != nil {
-		panic("Cannot decode b64")
-	}
-
-	r := bytes.NewReader(unbased)
-	im, err := png.Decode(r)
-	if err != nil {
-		return "", fmt.Errorf("Error base64 reader: " + err.Error())
-	}
-
-	path := time.Now().Format(time.RFC3339) + ".png"
-
-	f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0777)
-	if err != nil {
-		return "", fmt.Errorf("Error open file: " + err.Error())
-	}
-
-	err = png.Encode(f, im)
-	if err != nil {
-		return "", fmt.Errorf("Error create file: " + err.Error())
-	}
-	return path, nil
 }

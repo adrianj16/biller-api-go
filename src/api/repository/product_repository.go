@@ -19,12 +19,12 @@ func (p *Product) GetAll() interface{} {
 	return products
 }
 
-func (p *Product) Get(productID int) interface{} {
+func (p *Product) Get(productID int) model.Product {
 	product := model.Product{}
 	err := database.DB.Get(&product, fmt.Sprintf("SELECT ID, Title, Description, (New = b'1') AS New, (MultiProduct = b'1') AS MultiProduct FROM product WHERE ID=%v", productID))
 	if err != nil {
 		fmt.Println(fmt.Sprintf("error running server %s", err.Error()))
-		return nil
+		return model.Product{}
 	}
 	return product
 }
@@ -59,7 +59,7 @@ func (p *Product) Delete(productID int) interface{} {
 	return true
 }
 
-func (p *Product) Create(product model.Product) interface{} {
+func (p *Product) Create(product model.Product) model.Product {
 	query := fmt.Sprintf("INSERT INTO product(Title, Description, New, MultiProduct) VALUES('%s', '%s', %d, %d)",
 		product.Title,
 		product.Description,
@@ -70,7 +70,7 @@ func (p *Product) Create(product model.Product) interface{} {
 	lastId, err := result.LastInsertId()
 	if err != nil {
 		fmt.Println("error in exec query")
-		return nil
+		return model.Product{}
 	}
 	return p.Get(int(lastId))
 }

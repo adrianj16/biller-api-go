@@ -21,8 +21,10 @@ type Product struct {
 }
 
 type Image struct {
-	ID   int    `json:"id"`
-	Path string `json:"path"`
+	ID     int    `db:"ID" json:"id"`
+	Path   string `db:"Path" json:"path"`
+	Base64 string `json:"base64,omitempty"`
+	Order  int    `db:"Order" json:"order"`
 }
 
 type ProductDiscount struct {

@@ -2,7 +2,8 @@ package main
 
 import (
 	"biller-api/src/api/database"
-	"biller-api/src/api/handler"
+	handler "biller-api/src/api/handler/product"
+
 	"fmt"
 
 	"github.com/gin-gonic/gin"
